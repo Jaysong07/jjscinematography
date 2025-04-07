@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JJ's Cinematography</title>
   <style>
-    :root {
+ :root {
       --gradient: linear-gradient(270deg, #ffcc66, #ff99cc);
       --primary: #2a2a2a;
       --secondary: #f8f9fa;
       --dark-bg: #121212;
       --dark-card: #1a1a1a;
+      --safe-border: rgba(255, 255, 255, 0.2); /* Dynamic border color */
     }
     @keyframes gradientAnimation {
       0% { background-position: 0% 50%; }
@@ -229,7 +230,7 @@
       backdrop-filter: blur(20px);
       border-radius: 20px;
       z-index: 1;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid var(--safe-border); /* Using the variable instead of hardcoded value */
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     }
     .media-image {
@@ -432,10 +433,20 @@
     }
 
     /* Mobile styles - updated to show multiple images per row */
-    @media (max-width: 576px) {
-      body {
-        font-size: 0.9rem;
+     @media (max-width: 576px) {
+      .top-section h1 {
+        font-size: 1.8rem; /* Smaller font size for mobile */
+        letter-spacing: 2px;
+        white-space: normal; /* Allow wrapping if needed */
+        padding: 0 10px;
+        text-align: center;
       }
+
+      body.dark-mode {
+      background: var(--dark-bg);
+      --secondary: var(--dark-bg);
+      --safe-border: rgba(255, 255, 255, 0.1); /* Update border color in dark mode */
+    }
 
       .top-section {
         clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
