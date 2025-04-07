@@ -390,64 +390,155 @@
       transition: all 0.3s ease;
       user-select: none;
     }
-    .zoom-button:hover {
-      background: rgba(255, 255, 255, 0.3);
+   /* This is part of your existing CSS above the media queries */
+  @media (max-width: 1024px) {
+      .our-works-layout {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+
+      .top-section h1 {
+        font-size: 3.5rem;
+      }
     }
-    @media (max-width: 1024px) {
+
+    @media (max-width: 768px) {
       .our-works-layout {
         grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
       }
-    }
-    @media (max-width: 768px) {
-      body {
-        font-size: 0.6rem;
-      }
-      .top-section {
-        clip-path: none;
-        padding: 0.5rem;
-      }
+
       .top-section h1 {
-        font-size: 2.5rem;
+        font-size: 3rem;
       }
-      .nav-container {
-        top: 0.5rem;
-        right: 0.5rem;
-        bottom: auto;
-        transform: none;
-        gap: 0.5rem;
+
+      .section {
+        padding: 1.5rem;
       }
-      .nav-item {
-        padding: 0.5rem 0.8rem;
-        font-size: 0.8rem;
-      }
-      .content-wrapper {
-        padding: 1.5rem 0.5rem;
-        margin-top: 100vh;
-      }
+
       #typing-text {
-        font-size: 0.8rem;
+        font-size: 1.1rem;
       }
-      .our-works-layout {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 0.5rem;
-        padding: 0 0.5rem;
+
+      .filter-menu {
+        padding: 1rem 0;
+        margin: 1.5rem 0;
       }
-      .image-container {
-        padding-bottom: 100%;
+
+      .filter-item {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
       }
     }
-    @media (max-width: 480px) {
-      .nav-item {
-        padding: 0.4rem 0.6rem;
-        font-size: 0.7rem;
+
+    /* Mobile styles - updated to show multiple images per row */
+    @media (max-width: 576px) {
+      body {
+        font-size: 0.9rem;
       }
+
+      .top-section {
+        clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+        height: 90vh;
+      }
+
+      .top-section h1 {
+        font-size: 2.2rem;
+        letter-spacing: 2px;
+      }
+
+      .content-wrapper {
+        margin-top: 85vh;
+        padding: 1rem 0.75rem;
+      }
+
+      .nav-container {
+        top: 1rem;
+        right: 1rem;
+        gap: 0.5rem;
+      }
+
+      .nav-item {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+      }
+
+      #typing-text {
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      .section {
+        padding: 1.25rem;
+        margin-bottom: 2rem;
+        border-radius: 12px;
+      }
+
+      /* Updated to show 2 images per row */
+      .our-works-layout {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        margin: 1.5rem 0;
+        padding: 0;
+      }
+
+      .image-container {
+        padding-bottom: 100%; /* Square images on mobile for better grid alignment */
+      }
+
+      .filter-menu {
+        padding: 0.75rem 0;
+        margin: 1rem 0;
+      }
+
+      .filter-item {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+      }
+
       .back-to-top {
         bottom: 1rem;
         right: 1rem;
-        padding: 0.8rem;
+        padding: 0.7rem;
       }
+
+      .fullscreen-overlay .navigation-button {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
+
+      .zoom-controls {
+        bottom: 15px;
+      }
+
+      .zoom-button {
+        width: 35px;
+        height: 35px;
+      }
+    }
+
+    /* Very small devices - still showing 2 images per row but with smaller padding */
+    @media (max-width: 360px) {
+      .top-section h1 {
+        font-size: 1.8rem;
+      }
+
+      .nav-item {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+      }
+
+      #typing-text {
+        font-size: 0.9rem;
+      }
+
       .our-works-layout {
-        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+      }
+
+      .section {
+        padding: 1rem;
       }
     }
   </style>
