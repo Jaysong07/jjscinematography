@@ -49,7 +49,7 @@
       clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
     }
     .top-section h1 {
-      font-size: 4rem;
+      font-size: 4rem; /* Keeping large text on all devices */
       text-transform: uppercase;
       letter-spacing: 4px;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
@@ -93,6 +93,7 @@
     body.dark-mode #typing-text {
       color: rgba(255,255,255,0.9);
     }
+    /* Navigation Styles */
     .nav-container {
       position: fixed;
       top: 2rem;
@@ -118,6 +119,7 @@
       background: rgba(255,255,255,0.2);
       transform: translateY(-2px);
     }
+    /* Back to top button */
     .back-to-top {
       position: fixed;
       bottom: 2rem;
@@ -135,6 +137,7 @@
       background: #ffffff;
       color: var(--dark-bg);
     }
+    /* Filter Menu */
     .filter-menu {
       display: flex;
       gap: 1rem;
@@ -186,6 +189,7 @@
       color: rgba(255,255,255,0.9);
       border-color: rgba(255,255,255,0.1);
     }
+    /* Our Works Layout */
     .our-works-layout {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -212,7 +216,7 @@
     .image-container {
       position: relative;
       width: 100%;
-      padding-bottom: 150%;
+      padding-bottom: 150%; /* Default aspect ratio */
       border-radius: 20px;
     }
     .image-container::before {
@@ -246,6 +250,7 @@
     .media-card:hover .media-image {
       transform: scale(1.2);
     }
+    /* Fullscreen overlay and controls */
     .fullscreen-overlay {
       position: fixed;
       top: 0;
@@ -391,20 +396,53 @@
     .zoom-button:hover {
       background: rgba(255, 255, 255, 0.3);
     }
+    /* Responsive adjustments */
     @media (max-width: 1024px) {
       .our-works-layout {
         grid-template-columns: repeat(2, 1fr);
-      }
-      .top-section h1 {
-        font-size: 3rem;
       }
     }
     @media (max-width: 768px) {
       .our-works-layout {
         grid-template-columns: 1fr;
       }
+      /* Keep the heading size consistent on mobile */
       .top-section h1 {
-        font-size: 2.5rem;
+        font-size: 4rem;
+      }
+      /* Ensure readable text size */
+      #typing-text {
+        font-size: 1.4rem;
+      }
+      /* Adjust navigation for better touch targets */
+      .nav-container {
+        top: auto;
+        bottom: 1rem;
+        right: 50%;
+        transform: translateX(50%);
+        gap: 0.8rem;
+      }
+      .nav-item {
+        padding: 0.9rem 1.2rem;
+        font-size: 1rem;
+      }
+      .content-wrapper {
+        padding: 3rem 1rem;
+      }
+      /* Make image cards larger on mobile by reducing extra padding */
+      .image-container {
+        padding-bottom: 100%;
+      }
+    }
+    @media (max-width: 480px) {
+      .nav-item {
+        padding: 0.8rem;
+        font-size: 1rem;
+      }
+      .back-to-top {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.8rem;
       }
     }
   </style>
@@ -456,6 +494,7 @@
     </section>
     <section class="section" id="services">
       <h2>Our Services</h2>
+      <!-- Add service details as needed -->
     </section>
   </div>
   <div class="back-to-top">↑</div>
@@ -529,8 +568,8 @@
 
         mediaCards.forEach(card => {
           card.style.transition = 'all 0.4s ease';
-          if (filter === 'featured' && card.dataset.category.includes('featured') ||
-              filter !== 'featured' && card.dataset.category.includes(filter)) {
+          if ((filter === 'featured' && card.dataset.category.includes('featured')) ||
+              (filter !== 'featured' && card.dataset.category.includes(filter))) {
             card.classList.remove('hidden');
           } else {
             card.classList.add('hidden');
@@ -555,7 +594,6 @@
     let translateX = 0, translateY = 0;
     let lastZoomPoint = { x: 0, y: 0 };
     let dragStartX = 0, dragStartY = 0;
-    let hasMoved = false;
 
     function getContainerCenter() {
       const rect = document.querySelector('.fullscreen-image-container').getBoundingClientRect();
@@ -653,13 +691,11 @@
       isDragging = true;
       dragStartX = e.clientX - translateX;
       dragStartY = e.clientY - translateY;
-      hasMoved = false;
       fullscreenImage.classList.add('panning');
     });
 
     document.addEventListener('mousemove', (e) => {
       if (!isDragging) return;
-      hasMoved = true;
       translateX = e.clientX - dragStartX;
       translateY = e.clientY - dragStartY;
       updateZoom();
@@ -675,8 +711,8 @@
       if (e.key === 'Escape') closeFullscreen();
       else if (e.key === 'ArrowLeft') showImage(currentImageIndex - 1);
       else if (e.key === 'ArrowRight') showImage(currentImageIndex + 1);
-      else if (e.key === '+') zoomAtPoint(Math.min(currentScale + 0.5, 5), ...getContainerCenter());
-      else if (e.key === '-') zoomAtPoint(Math.max(currentScale - 0.5, 1), ...getContainerCenter());
+      else if (e.key === '+') zoomAtPoint(Math.min(currentScale + 0.5, 5), ...Object.values(getContainerCenter()));
+      else if (e.key === '-') zoomAtPoint(Math.max(currentScale - 0.5, 1), ...Object.values(getContainerCenter()));
       else if (e.key === '0') resetZoom();
     });
 
