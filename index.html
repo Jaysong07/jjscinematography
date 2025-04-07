@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JJ's Cinematography</title>
   <style>
- :root {
+    :root {
       --gradient: linear-gradient(270deg, #ffcc66, #ff99cc);
       --primary: #2a2a2a;
       --secondary: #f8f9fa;
       --dark-bg: #121212;
       --dark-card: #1a1a1a;
-      --safe-border: rgba(255, 255, 255, 0.2); /* Dynamic border color */
+      --safe-border: rgba(255, 255, 255, 0.2);
     }
     @keyframes gradientAnimation {
       0% { background-position: 0% 50%; }
@@ -230,7 +230,7 @@
       backdrop-filter: blur(20px);
       border-radius: 20px;
       z-index: 1;
-      border: 1px solid var(--safe-border); /* Using the variable instead of hardcoded value */
+      border: 1px solid var(--safe-border);
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     }
     .media-image {
@@ -391,163 +391,186 @@
       transition: all 0.3s ease;
       user-select: none;
     }
-   /* This is part of your existing CSS above the media queries */
-  @media (max-width: 1024px) {
+    /* Back to Home button */
+    .back-button {
+      position: fixed;
+      top: 2rem;
+      left: 2rem;
+      padding: 0.8rem 1.5rem;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 50px;
+      color: var(--primary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    body.dark-mode .back-button {
+      background: rgba(0,0,0,0.2);
+      color: #ffffff;
+    }
+    .back-button:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+    }
+    /* Go to Collage button inside Our Work section */
+    .collage-button {
+      display: inline-block;
+      margin: 2rem auto 0;
+      padding: 0.8rem 1.5rem;
+      background: var(--secondary);
+      color: white; /* Button text white */
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      text-decoration: none;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      border-radius: 50px;
+    }
+    .collage-button::before {
+      content: "";
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: var(--gradient);
+      z-index: -1;
+      border-radius: inherit;
+    }
+    .collage-button:hover {
+      transform: scale(1.05);
+    }
+    @media (max-width: 1024px) {
       .our-works-layout {
         grid-template-columns: repeat(3, 1fr);
         gap: 1.5rem;
       }
-
       .top-section h1 {
         font-size: 3.5rem;
       }
     }
-
     @media (max-width: 768px) {
       .our-works-layout {
         grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
       }
-
       .top-section h1 {
         font-size: 3rem;
       }
-
       .section {
         padding: 1.5rem;
       }
-
       #typing-text {
         font-size: 1.1rem;
       }
-
       .filter-menu {
         padding: 1rem 0;
         margin: 1.5rem 0;
       }
-
       .filter-item {
         padding: 0.6rem 1.2rem;
         font-size: 0.9rem;
       }
     }
-
-    /* Mobile styles - updated to show multiple images per row */
-     @media (max-width: 576px) {
+    @media (max-width: 576px) {
       .top-section h1 {
-        font-size: 1.8rem; /* Smaller font size for mobile */
+        font-size: 1.8rem;
         letter-spacing: 2px;
-        white-space: normal; /* Allow wrapping if needed */
+        white-space: normal;
         padding: 0 10px;
         text-align: center;
       }
-
       body.dark-mode {
-      background: var(--dark-bg);
-      --secondary: var(--dark-bg);
-      --safe-border: rgba(255, 255, 255, 0.1); /* Update border color in dark mode */
-    }
-
+        background: var(--dark-bg);
+        --secondary: var(--dark-bg);
+        --safe-border: rgba(255, 255, 255, 0.1);
+      }
       .top-section {
         clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
         height: 90vh;
       }
-
       .top-section h1 {
         font-size: 2.2rem;
         letter-spacing: 2px;
       }
-
       .content-wrapper {
         margin-top: 85vh;
         padding: 1rem 0.75rem;
       }
-
       .nav-container {
         top: 1rem;
         right: 1rem;
         gap: 0.5rem;
       }
-
       .nav-item {
         padding: 0.5rem 1rem;
         font-size: 0.8rem;
       }
-
       #typing-text {
         font-size: 1rem;
         line-height: 1.6;
       }
-
       .section {
         padding: 1.25rem;
         margin-bottom: 2rem;
         border-radius: 12px;
       }
-
-      /* Updated to show 2 images per row */
       .our-works-layout {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
         margin: 1.5rem 0;
         padding: 0;
       }
-
       .image-container {
-        padding-bottom: 100%; /* Square images on mobile for better grid alignment */
+        padding-bottom: 100%;
       }
-
       .filter-menu {
         padding: 0.75rem 0;
         margin: 1rem 0;
       }
-
       .filter-item {
         padding: 0.5rem 1rem;
         font-size: 0.8rem;
       }
-
       .back-to-top {
         bottom: 1rem;
         right: 1rem;
         padding: 0.7rem;
       }
-
       .fullscreen-overlay .navigation-button {
         width: 40px;
         height: 40px;
         font-size: 18px;
       }
-
       .zoom-controls {
         bottom: 15px;
       }
-
       .zoom-button {
         width: 35px;
         height: 35px;
       }
     }
-
-    /* Very small devices - still showing 2 images per row but with smaller padding */
     @media (max-width: 360px) {
       .top-section h1 {
         font-size: 1.8rem;
       }
-
       .nav-item {
         padding: 0.4rem 0.8rem;
         font-size: 0.75rem;
       }
-
       #typing-text {
         font-size: 0.9rem;
       }
-
       .our-works-layout {
         gap: 0.5rem;
       }
-
       .section {
         padding: 1rem;
       }
@@ -598,6 +621,8 @@
           </div>
         </div>
       </div>
+      <!-- Go to Collage Button inside the Our Work section -->
+      <a href="Collage.html" class="collage-button">Go to Collage</a>
     </section>
     <section class="section" id="services">
       <h2>Our Services</h2>
