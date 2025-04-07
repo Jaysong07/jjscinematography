@@ -27,6 +27,7 @@
       font-family: 'Arial', sans-serif;
       overflow-x: hidden;
       background: var(--secondary);
+      font-size: 1rem;
     }
     body.dark-mode {
       background: var(--dark-bg);
@@ -49,12 +50,13 @@
       clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
     }
     .top-section h1 {
-      font-size: 4rem; /* Keeping large text on all devices */
+      font-size: 4rem;
       text-transform: uppercase;
       letter-spacing: 4px;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
       mix-blend-mode: overlay;
       color: var(--primary);
+      white-space: nowrap;
     }
     .content-wrapper {
       position: relative;
@@ -93,7 +95,6 @@
     body.dark-mode #typing-text {
       color: rgba(255,255,255,0.9);
     }
-    /* Navigation Styles */
     .nav-container {
       position: fixed;
       top: 2rem;
@@ -119,7 +120,6 @@
       background: rgba(255,255,255,0.2);
       transform: translateY(-2px);
     }
-    /* Back to top button */
     .back-to-top {
       position: fixed;
       bottom: 2rem;
@@ -137,7 +137,6 @@
       background: #ffffff;
       color: var(--dark-bg);
     }
-    /* Filter Menu */
     .filter-menu {
       display: flex;
       gap: 1rem;
@@ -189,7 +188,6 @@
       color: rgba(255,255,255,0.9);
       border-color: rgba(255,255,255,0.1);
     }
-    /* Our Works Layout */
     .our-works-layout {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -216,7 +214,7 @@
     .image-container {
       position: relative;
       width: 100%;
-      padding-bottom: 150%; /* Default aspect ratio */
+      padding-bottom: 150%;
       border-radius: 20px;
     }
     .image-container::before {
@@ -250,7 +248,6 @@
     .media-card:hover .media-image {
       transform: scale(1.2);
     }
-    /* Fullscreen overlay and controls */
     .fullscreen-overlay {
       position: fixed;
       top: 0;
@@ -396,53 +393,61 @@
     .zoom-button:hover {
       background: rgba(255, 255, 255, 0.3);
     }
-    /* Responsive adjustments */
     @media (max-width: 1024px) {
       .our-works-layout {
         grid-template-columns: repeat(2, 1fr);
       }
     }
     @media (max-width: 768px) {
-      .our-works-layout {
-        grid-template-columns: 1fr;
+      body {
+        font-size: 0.6rem;
       }
-      /* Keep the heading size consistent on mobile */
+      .top-section {
+        clip-path: none;
+        padding: 0.5rem;
+      }
       .top-section h1 {
-        font-size: 4rem;
+        font-size: 2.5rem;
       }
-      /* Ensure readable text size */
-      #typing-text {
-        font-size: 1.4rem;
-      }
-      /* Adjust navigation for better touch targets */
       .nav-container {
-        top: auto;
-        bottom: 1rem;
-        right: 50%;
-        transform: translateX(50%);
-        gap: 0.8rem;
+        top: 0.5rem;
+        right: 0.5rem;
+        bottom: auto;
+        transform: none;
+        gap: 0.5rem;
       }
       .nav-item {
-        padding: 0.9rem 1.2rem;
-        font-size: 1rem;
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
       }
       .content-wrapper {
-        padding: 3rem 1rem;
+        padding: 1.5rem 0.5rem;
+        margin-top: 100vh;
       }
-      /* Make image cards larger on mobile by reducing extra padding */
+      #typing-text {
+        font-size: 0.8rem;
+      }
+      .our-works-layout {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+        padding: 0 0.5rem;
+      }
       .image-container {
         padding-bottom: 100%;
       }
     }
     @media (max-width: 480px) {
       .nav-item {
-        padding: 0.8rem;
-        font-size: 1rem;
+        padding: 0.4rem 0.6rem;
+        font-size: 0.7rem;
       }
       .back-to-top {
         bottom: 1rem;
         right: 1rem;
         padding: 0.8rem;
+      }
+      .our-works-layout {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
@@ -494,7 +499,6 @@
     </section>
     <section class="section" id="services">
       <h2>Our Services</h2>
-      <!-- Add service details as needed -->
     </section>
   </div>
   <div class="back-to-top">↑</div>
@@ -512,6 +516,7 @@
     </div>
   </div>
   <script>
+    // Typing effect
     const typingText = document.getElementById('typing-text');
     const fullText = "Why choose JJ's cinematography?\n\nAt JJ's Cinematography, we simplify excellence by seamlessly integrating videography, photography, and animations under one roof. Our unified team eliminates the hassle of juggling vendors, delivering faster workflows, consistent quality, and creative cohesion—all powered by cutting-edge tools like 4K drones, dynamic editing, and custom animations. By bundling services, you save time and costs without sacrificing impact, while our collaborative approach ensures every frame reflects your vision. Let's bring your story to life—smarter, sharper, and stress-free.";
     let currentCharIndex = 0;
@@ -524,7 +529,6 @@
         }
       });
     }, { threshold: 0.1 });
-
     sections.forEach(section => observer.observe(section));
 
     window.addEventListener('scroll', () => {
