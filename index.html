@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -103,6 +103,7 @@
       z-index: 1000;
       display: flex;
       gap: 1rem;
+      flex-wrap: wrap;
     }
     .nav-item {
       padding: 0.8rem 1.5rem;
@@ -112,6 +113,7 @@
       color: var(--primary);
       cursor: pointer;
       transition: all 0.3s ease;
+      white-space: nowrap;
     }
     body.dark-mode .nav-item {
       background: rgba(0,0,0,0.2);
@@ -233,7 +235,7 @@
       border: 1px solid var(--safe-border);
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     }
-    .media-image {
+    .media-image, .media-video {
       position: absolute;
       top: 0;
       left: 0;
@@ -246,8 +248,77 @@
       transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       cursor: pointer;
     }
-    .media-card:hover .media-image {
-      transform: scale(1.2);
+    .media-video {
+      background: #000;
+    }
+    .media-card:hover .media-image,
+    .media-card:hover .media-video {
+      transform: scale(1.05);
+    }
+    .play-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+      font-size: 24px;
+      z-index: 3;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      opacity: 1;
+    }
+    .media-card:hover .play-overlay {
+      transform: translate(-50%, -50%) scale(1.1);
+      background: rgba(255, 255, 255, 1);
+      opacity: 0;
+    }
+    /* Video hover controls */
+    .video-hover-overlay {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 8px;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      z-index: 4;
+      color: white;
+      font-size: 12px;
+    }
+    .media-card:hover .video-hover-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .video-time-display {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .video-progress-bar {
+      flex: 1;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .video-progress-fill {
+      height: 100%;
+      background: #ff99cc;
+      width: 0%;
+      transition: width 0.1s ease;
     }
     .fullscreen-overlay {
       position: fixed;
@@ -255,7 +326,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.95);
       backdrop-filter: blur(12px);
       z-index: 2000;
       display: flex;
@@ -278,7 +349,7 @@
       justify-content: center;
       overflow: hidden;
     }
-    .fullscreen-image {
+    .fullscreen-image, .fullscreen-video {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
@@ -296,7 +367,14 @@
       transition: none;
       cursor: move;
     }
-    .fullscreen-overlay.active .fullscreen-image {
+    .fullscreen-video {
+      cursor: default;
+      background: #000;
+      max-width: 95%;
+      max-height: 95%;
+    }
+    .fullscreen-overlay.active .fullscreen-image,
+    .fullscreen-overlay.active .fullscreen-video {
       opacity: 1;
     }
     .close-button {
@@ -391,6 +469,89 @@
       transition: all 0.3s ease;
       user-select: none;
     }
+    /* Enhanced video controls for fullscreen */
+    .video-controls {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) scale(0);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 15px 20px;
+      border-radius: 30px;
+      z-index: 2001;
+      opacity: 0;
+      transition: all 0.3s ease;
+      user-select: none;
+      min-width: 400px;
+      justify-content: center;
+    }
+    .fullscreen-overlay.active .video-controls {
+      transform: translateX(-50%) scale(1);
+      opacity: 1;
+      transition-delay: 0.3s;
+    }
+    .video-control-btn {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .video-control-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+    .video-progress {
+      flex: 1;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 3px;
+      cursor: pointer;
+      position: relative;
+      margin: 0 10px;
+    }
+    .video-progress-filled {
+      height: 100%;
+      background: var(--gradient);
+      border-radius: 3px;
+      width: 0%;
+      transition: width 0.1s ease;
+    }
+    .video-time {
+      color: white;
+      font-size: 14px;
+      min-width: 80px;
+      text-align: center;
+    }
+    .volume-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .volume-slider {
+      width: 60px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+    }
+    .volume-slider-fill {
+      height: 100%;
+      background: #ff99cc;
+      border-radius: 2px;
+      width: 100%;
+    }
     /* Back to Home button */
     .back-button {
       position: fixed;
@@ -447,6 +608,353 @@
     .collage-button:hover {
       transform: scale(1.05);
     }
+    /* Collaborations Section Styles */
+    .collaborations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .collab-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2rem;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .collab-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: var(--gradient);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      animation: gradientAnimation 45s ease infinite;
+    }
+    .collab-card:hover::before {
+      opacity: 0.05;
+    }
+    .collab-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    }
+    body.dark-mode .collab-card {
+      background: rgba(0, 0, 0, 0.3);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .collab-logo {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 1.5rem;
+      position: relative;
+      border-radius: 50%;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+    }
+    .collab-card:hover .collab-logo {
+      transform: scale(1.1);
+      border-color: #ff99cc;
+    }
+    .logo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-size: 0.9rem;
+    }
+    .collab-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .collab-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+    body.dark-mode .collab-card h3 {
+      color: #ffffff;
+    }
+    .collab-card p {
+      color: #666;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    body.dark-mode .collab-card p {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    /* Services Section Styles */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .service-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2rem;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: var(--gradient);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      animation: gradientAnimation 45s ease infinite;
+    }
+    .service-card:hover::before {
+      opacity: 0.1;
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+    body.dark-mode .service-card {
+      background: rgba(0, 0, 0, 0.3);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .service-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      filter: grayscale(0%);
+    }
+    .service-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+    body.dark-mode .service-card h3 {
+      color: #ffffff;
+    }
+    .service-price {
+      font-size: 2rem;
+      font-weight: bold;
+      background: var(--gradient);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+      animation: gradientAnimation 45s ease infinite;
+      background-size: 400% 400%;
+    }
+    .service-card p {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    body.dark-mode .service-card p {
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .service-features {
+      list-style: none;
+      padding: 0;
+      text-align: left;
+    }
+    .service-features li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      color: #666;
+    }
+    body.dark-mode .service-features li {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .service-features li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #ff99cc;
+      font-weight: bold;
+    }
+    .custom-service {
+      grid-column: 1 / -1;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .contact-btn {
+      margin-top: 1.5rem;
+      padding: 0.8rem 2rem;
+      background: var(--gradient);
+      background-size: 400% 400%;
+      animation: gradientAnimation 45s ease infinite;
+      border: none;
+      border-radius: 50px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .contact-btn:hover {
+      transform: scale(1.05);
+    }
+    /* Contact Section Styles */
+    .contact-container {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      align-items: center;
+    }
+    .contact-info {
+      display: flex;
+      gap: 4rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .contact-icon {
+      font-size: 3rem;
+      width: 80px;
+      height: 80px;
+      background: var(--gradient);
+      background-size: 400% 400%;
+      animation: gradientAnimation 45s ease infinite;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .contact-details h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+    body.dark-mode .contact-details h3 {
+      color: #ffffff;
+    }
+    .contact-details a {
+      font-size: 1.1rem;
+      color: #ff99cc;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .contact-details a:hover {
+      color: #ffcc66;
+      transform: translateX(5px);
+    }
+    .contact-cta {
+      text-align: center;
+      max-width: 600px;
+    }
+    .contact-cta p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #666;
+      line-height: 1.6;
+    }
+    body.dark-mode .contact-cta p {
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .contact-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .contact-method-btn {
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .email-btn {
+      background: var(--gradient);
+      background-size: 400% 400%;
+      animation: gradientAnimation 45s ease infinite;
+      color: white;
+    }
+    .phone-btn {
+      background: transparent;
+      color: #ff99cc;
+      border: 2px solid #ff99cc;
+    }
+    .contact-method-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .phone-btn:hover {
+      background: #ff99cc;
+      color: white;
+    }
+
+    /* Photoshoot Results Section Styles */
+    .photoshoot-gallery-btn {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: var(--gradient);
+      background-size: 400% 400%;
+      animation: gradientAnimation 45s ease infinite;
+      color: white;
+      font-weight: bold;
+      font-size: 1.1rem;
+      text-decoration: none;
+      border-radius: 50px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      margin: 0 auto;
+      display: block;
+      width: fit-content;
+    }
+
+    .photoshoot-gallery-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+    }
+
+    .photoshoot-section-content {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .photoshoot-section-content p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    body.dark-mode .photoshoot-section-content p {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .photoshoot-disclaimer {
+      font-size: 0.9rem;
+      color: #999;
+      margin-top: 1rem;
+      font-style: italic;
+    }
+
     @media (max-width: 1024px) {
       .our-works-layout {
         grid-template-columns: repeat(3, 1fr);
@@ -454,6 +962,16 @@
       }
       .top-section h1 {
         font-size: 3.5rem;
+      }
+      .nav-container {
+        gap: 0.5rem;
+      }
+      .nav-item {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+      }
+      .video-controls {
+        min-width: 300px;
       }
     }
     @media (max-width: 768px) {
@@ -478,8 +996,56 @@
         padding: 0.6rem 1.2rem;
         font-size: 0.9rem;
       }
+      .collaborations-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+      }
+      .collab-logo {
+        width: 100px;
+        height: 100px;
+      }
+      .services-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .service-card {
+        padding: 1.5rem;
+      }
+      .service-icon {
+        font-size: 2.5rem;
+      }
+      .service-price {
+        font-size: 1.75rem;
+      }
+      .custom-service {
+        max-width: 100%;
+      }
+      .contact-info {
+        gap: 2rem;
+      }
+      .contact-item {
+        flex-direction: column;
+        text-align: center;
+      }
+      .nav-container {
+        top: 1rem;
+        right: 1rem;
+        gap: 0.3rem;
+      }
+      .nav-item {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+      }
+      .video-controls {
+        min-width: 250px;
+        padding: 10px 15px;
+      }
     }
     @media (max-width: 576px) {
+      .photoshoot-gallery-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+      }
       .top-section h1 {
         font-size: 1.8rem;
         letter-spacing: 2px;
@@ -508,10 +1074,12 @@
         top: 1rem;
         right: 1rem;
         gap: 0.5rem;
+        flex-direction: column;
+        align-items: flex-end;
       }
       .nav-item {
-        padding: 0.5rem 1rem;
-        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
       }
       #typing-text {
         font-size: 1rem;
@@ -539,6 +1107,13 @@
         padding: 0.5rem 1rem;
         font-size: 0.8rem;
       }
+      .collaborations-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .collab-card {
+        padding: 1.5rem;
+      }
       .back-to-top {
         bottom: 1rem;
         right: 1rem;
@@ -555,6 +1130,31 @@
       .zoom-button {
         width: 35px;
         height: 35px;
+      }
+      .contact-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+      }
+      .contact-cta p {
+        font-size: 1rem;
+      }
+      .contact-buttons {
+        flex-direction: column;
+        width: 100%;
+      }
+      .contact-method-btn {
+        width: 100%;
+        text-align: center;
+      }
+      .video-controls {
+        min-width: 200px;
+        padding: 8px 12px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .video-progress {
+        min-width: 100px;
       }
     }
     @media (max-width: 360px) {
@@ -574,6 +1174,9 @@
       .section {
         padding: 1rem;
       }
+      .video-controls {
+        min-width: 180px;
+      }
     }
   </style>
 </head>
@@ -582,56 +1185,227 @@
     <h1>JJ's Cinematography</h1>
   </div>
   <nav class="nav-container">
-    <div class="nav-item">About</div>
+    <div class="nav-item">Over</div>
     <div class="nav-item">Portfolio</div>
+    <div class="nav-item">Diensten</div>
     <div class="nav-item">Contact</div>
+    <div class="nav-item">Fotoshoot Resultaten</div>
   </nav>
   <div class="content-wrapper">
     <section class="section" id="about">
       <p id="typing-text"></p>
     </section>
     <section class="section" id="portfolio">
-      <h2>Our Work</h2>
+      <h2>Ons Werk</h2>
       <div class="filter-menu">
-        <div class="filter-item active" data-filter="featured">Featured</div>
-        <div class="filter-item" data-filter="portraits">Portraits</div>
+        <div class="filter-item active" data-filter="featured">Uitgelicht</div>
+        <div class="filter-item" data-filter="portraits">Portretten</div>
         <div class="filter-item" data-filter="drone">Drone</div>
-        <div class="filter-item" data-filter="animations">Animations</div>
+        <div class="filter-item" data-filter="animations">Animaties</div>
         <div class="filter-item" data-filter="apps">Apps</div>
       </div>
-      <div class="our-works-layout">
+     <div class="our-works-layout">
+  <!-- Existing media cards -->
+  <div class="media-card" data-category="featured portraits">
+    <div class="image-container">
+      <img src="A6700418copy.jpg" alt="Project 1" class="media-image">
+    </div>
+  </div>
+  <div class="media-card" data-category="featured portraits">
+    <div class="image-container">
+      <img src="Djenairoweb.jpg" alt="Project 2" class="media-image">
+    </div>
+  </div>
+  <div class="media-card" data-category="featured portraits">
+    <div class="image-container">
+      <img src="Aadhyaweb.jpg" alt="Project 3" class="media-image">
+    </div>
+  </div>
+  <div class="media-card" data-category="featured portraits">
+    <div class="image-container">
+      <img src="Djenairoweb1.jpg" alt="Project 4" class="media-image">
+    </div>
+  </div>
+  <!-- New image added here -->
+  <div class="media-card" data-category="featured portraits">
+    <div class="image-container">
+      <img src="A6706040.png" alt="Project 5" class="media-image">
+    </div>
+  </div>
+       <div class="media-card" data-category="featured portraits">
+    <div class="image-container">
+      <img src="Foto4.jpg" alt="Project 6" class="media-image">
+    </div>
+  </div>
         <div class="media-card" data-category="featured portraits">
-          <div class="image-container">
-            <img src="A6700418copy.jpg" alt="Project 1" class="media-image">
+    <div class="image-container">
+      <img src="A6704691.png" alt="Project 7" class="media-image">
+    </div>
+  </div>
+           <div class="media-card" data-category="featured portraits" data-type="video">
+    <div class="image-container">
+      <video class="media-video" preload="metadata" muted loop>
+        <source src="Timeline 1.mp4" type="video/mp4">
+        Uw browser ondersteunt de video tag niet.
+      </video>
+      <div class="play-overlay">▶</div>
+      <div class="video-hover-overlay">
+        <div class="video-time-display">
+          <span class="current-time">0:00</span> / <span class="duration">0:00</span>
+        </div>
+        <div class="video-progress-bar">
+          <div class="video-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <!-- Go to Collage Button inside the Our Work section -->
+      <a href="Collage.html" class="collage-button">Ga naar Collage</a>
+    </section>
+    <section class="section" id="collaborations">
+      <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2.5rem;">Samenwerkingen</h2>
+      <p style="text-align: center; margin-bottom: 3rem; color: #666; font-size: 1.1rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+        We zijn trots om samen te werken met geweldige merken en getalenteerde makers. Hier zijn enkele van onze gewaardeerde partners en samenwerkingen.
+      </p>
+      <div class="collaborations-grid">
+        <div class="collab-card">
+          <div class="collab-logo">
+            <img src="Zuidoostlogo.png" alt="Zuidoost Logo">
+          </div>
+          <h3>Zuidoost</h3>
+          <p>Creatieve samenwerking die frisse perspectieven brengt aan visuele verhalen en merkidentiteit.</p>
+        </div>
+
+        <div class="collab-card">
+          <div class="collab-logo">
+            <div class="logo-placeholder">Merk Logo</div>
+          </div>
+          <h3>Merknaam</h3>
+          <p>Beschrijving van samenwerking en gezamenlijk voltooide projecten.</p>
+        </div>
+
+        <div class="collab-card">
+          <div class="collab-logo">
+            <div class="logo-placeholder">Merk Logo</div>
+          </div>
+          <h3>Merknaam</h3>
+          <p>Beschrijving van samenwerking en gezamenlijk voltooide projecten.</p>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="services">
+      <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2.5rem;">Onze Diensten</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">📸</div>
+          <h3>Fotografie</h3>
+          <div class="service-price">€50/uur</div>
+          <p>Professionele fotosessies die uw speciale momenten vastleggen met artistieke precisie en creatieve visie.</p>
+          <ul class="service-features">
+            <li>Portret sessies</li>
+            <li>Evenement fotografie</li>
+            <li>Product foto's</li>
+            <li>Redactioneel werk</li>
+          </ul>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">🎬</div>
+          <h3>Fotografie + Filmen</h3>
+          <div class="service-price">€60/uur</div>
+          <p>Complete visuele verhalen die hoogwaardige fotografie combineren met cinematografische videoproductie.</p>
+          <ul class="service-features">
+            <li>Foto & video opnames</li>
+            <li>4K video opname</li>
+            <li>Professionele montage</li>
+            <li>Kleurcorrectie</li>
+          </ul>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">🚁</div>
+          <h3>Volledig Pakket + Drone</h3>
+          <div class="service-price">€70/uur</div>
+          <p>Til uw project naar een hoger niveau met prachtige luchtperspectieven naast grondniveau fotografie en filmen.</p>
+          <ul class="service-features">
+            <li>Luchtfotografie</li>
+            <li>Drone videografie</li>
+            <li>360° panorama's</li>
+            <li>Gelicentieerde piloot</li>
+          </ul>
+        </div>
+
+        <div class="service-card custom-service">
+          <div class="service-icon">✨</div>
+          <h3>Animatie & Web/App Ontwikkeling</h3>
+          <div class="service-price">Op Maat Offerte</div>
+          <p>Digitale oplossingen op maat van motion graphics tot complete web- en mobiele applicaties.</p>
+          <ul class="service-features">
+            <li>2D/3D animaties</li>
+            <li>Motion graphics</li>
+            <li>Web ontwikkeling</li>
+            <li>Mobiele app creatie</li>
+          </ul>
+          <button class="contact-btn">Krijg Offerte</button>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="contact">
+      <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2.5rem;">Neem Contact Op</h2>
+      <div class="contact-container">
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-icon">📧</div>
+            <div class="contact-details">
+              <h3>E-mail</h3>
+              <a href="mailto:jaysonganpat@gmail.com">jaysonganpat@gmail.com</a>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">📱</div>
+            <div class="contact-details">
+              <h3>Telefoon</h3>
+              <a href="tel:+31624574139">+31 6 24574139</a>
+            </div>
           </div>
         </div>
-        <div class="media-card" data-category="featured portraits">
-          <div class="image-container">
-            <img src="Djenairoweb.jpg" alt="Project 2" class="media-image">
-          </div>
-        </div>
-        <div class="media-card" data-category="featured portraits">
-          <div class="image-container">
-            <img src="Aadhyaweb.jpg" alt="Project 3" class="media-image">
-          </div>
-        </div>
-        <div class="media-card" data-category="featured portraits">
-          <div class="image-container">
-            <img src="Djenairoweb1.jpg" alt="Project 4" class="media-image">
+
+        <div class="contact-cta">
+          <p>Klaar om uw visie tot leven te brengen? Laten we samen iets geweldigs creëren!</p>
+          <div class="contact-buttons">
+            <a href="mailto:jaysonganpat@gmail.com" class="contact-method-btn email-btn">Stuur E-mail</a>
+            <a href="tel:+31624574139" class="contact-method-btn phone-btn">Bel Nu</a>
           </div>
         </div>
       </div>
-      <!-- Go to Collage Button inside the Our Work section -->
-      <a href="Collage.html" class="collage-button">Go to Collage</a>
     </section>
-    <section class="section" id="services">
-      <h2>Our Services</h2>
+
+    <section class="section" id="photoshoot-results">
+      <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2.5rem;">Fotoshoot Resultaten</h2>
+      <div class="photoshoot-section-content">
+        <p>
+          Bekijk foto's van onze recente fotoshoot sessies en evenementen. Blader door onze collectie van vastgelegde momenten en professioneel fotografiewerk.
+        </p>
+        <a href="https://1drv.ms/f/c/3c9df4de92405739/EvZt3UhRXa9EhWo5FAeAG7EB_iJVsrRDG-0kB-dpcRZpKw"
+           target="_blank"
+           class="photoshoot-gallery-btn">
+          📸 Bekijk Fotoshoot Galerij
+        </a>
+        <p class="photoshoot-disclaimer">
+          * Link opent in een nieuw tabblad - OneDrive galerij
+        </p>
+      </div>
     </section>
   </div>
   <div class="back-to-top">↑</div>
   <div class="fullscreen-overlay">
     <div class="fullscreen-image-container">
-      <img src="" alt="Fullscreen View" class="fullscreen-image">
+      <img src="" alt="Volledig Scherm Weergave" class="fullscreen-image">
+      <video src="" class="fullscreen-video" style="display: none;">
+        Uw browser ondersteunt de video tag niet.
+      </video>
     </div>
     <div class="close-button">&times;</div>
     <div class="navigation-button prev-button">&#10094;</div>
@@ -641,11 +1415,27 @@
       <div class="zoom-button zoom-in">&#43;</div>
       <div class="zoom-button zoom-reset">&#8634;</div>
     </div>
+    <div class="video-controls" style="display: none;">
+      <button class="video-control-btn play-pause-btn">⏸️</button>
+      <div class="video-time">
+        <span class="current-time-fs">0:00</span> / <span class="duration-fs">0:00</span>
+      </div>
+      <div class="video-progress">
+        <div class="video-progress-filled"></div>
+      </div>
+      <div class="volume-control">
+        <button class="video-control-btn volume-btn">🔊</button>
+        <div class="volume-slider">
+          <div class="volume-slider-fill"></div>
+        </div>
+      </div>
+      <button class="video-control-btn fullscreen-btn">⛶</button>
+    </div>
   </div>
   <script>
     // Typing effect
     const typingText = document.getElementById('typing-text');
-    const fullText = "Why choose JJ's cinematography?\n\nAt JJ's Cinematography, we simplify excellence by seamlessly integrating videography, photography, and animations under one roof. Our unified team eliminates the hassle of juggling vendors, delivering faster workflows, consistent quality, and creative cohesion—all powered by cutting-edge tools like 4K drones, dynamic editing, and custom animations. By bundling services, you save time and costs without sacrificing impact, while our collaborative approach ensures every frame reflects your vision. Let's bring your story to life—smarter, sharper, and stress-free.";
+    const fullText = "Website wordt nog steeds gebouwd, binnenkort klaar.";
     let currentCharIndex = 0;
 
     const sections = document.querySelectorAll('.section');
@@ -677,10 +1467,19 @@
 
     document.querySelectorAll('.nav-item').forEach(item => {
       item.addEventListener('click', (e) => {
-        const targetId = e.target.textContent.toLowerCase();
-        document.getElementById(targetId).scrollIntoView({
-          behavior: 'smooth'
-        });
+        let targetId = e.target.textContent.toLowerCase().replace(/\s+/g, '-');
+        if (targetId === 'fotoshoot-resultaten') targetId = 'photoshoot-results';
+        else if (targetId === 'portfolio') targetId = 'portfolio';
+        else if (targetId === 'over') targetId = 'about';
+        else if (targetId === 'diensten') targetId = 'services';
+        else if (targetId === 'contact') targetId = 'contact';
+
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
       });
     });
 
@@ -709,64 +1508,286 @@
       });
     });
 
-    const images = document.querySelectorAll('.media-image');
+    // Enhanced video hover functionality
+    function setupVideoHover() {
+      const videoCards = document.querySelectorAll('[data-type="video"]');
+
+      videoCards.forEach(card => {
+        const video = card.querySelector('.media-video');
+        const progressBar = card.querySelector('.video-progress-fill');
+        const currentTimeSpan = card.querySelector('.current-time');
+        const durationSpan = card.querySelector('.duration');
+
+        if (video) {
+          video.addEventListener('loadedmetadata', () => {
+            durationSpan.textContent = formatTime(video.duration);
+          });
+
+          video.addEventListener('timeupdate', () => {
+            const progress = (video.currentTime / video.duration) * 100;
+            progressBar.style.width = progress + '%';
+            currentTimeSpan.textContent = formatTime(video.currentTime);
+          });
+
+          card.addEventListener('mouseenter', () => {
+            video.play();
+          });
+
+          card.addEventListener('mouseleave', () => {
+            video.pause();
+            video.currentTime = 0;
+            progressBar.style.width = '0%';
+            currentTimeSpan.textContent = '0:00';
+          });
+        }
+      });
+    }
+
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Initialize video hover functionality
+    setupVideoHover();
+
+    // Updated media handling for both images and videos
+    const mediaElements = document.querySelectorAll('.media-image, .media-video');
     const overlay = document.querySelector('.fullscreen-overlay');
     const fullscreenImage = document.querySelector('.fullscreen-image');
+    const fullscreenVideo = document.querySelector('.fullscreen-video');
     const closeButton = document.querySelector('.close-button');
     const prevButton = document.querySelector('.prev-button');
     const nextButton = document.querySelector('.next-button');
     const zoomInButton = document.querySelector('.zoom-in');
     const zoomOutButton = document.querySelector('.zoom-out');
     const zoomResetButton = document.querySelector('.zoom-reset');
+    const zoomControls = document.querySelector('.zoom-controls');
+    const videoControls = document.querySelector('.video-controls');
 
-    let currentImageIndex = 0;
+    // Video controls elements
+    const playPauseBtn = document.querySelector('.play-pause-btn');
+    const videoProgress = document.querySelector('.video-progress');
+    const videoProgressFilled = document.querySelector('.video-progress-filled');
+    const currentTimeFs = document.querySelector('.current-time-fs');
+    const durationFs = document.querySelector('.duration-fs');
+    const volumeBtn = document.querySelector('.volume-btn');
+    const volumeSlider = document.querySelector('.volume-slider');
+    const volumeSliderFill = document.querySelector('.volume-slider-fill');
+    const fullscreenBtn = document.querySelector('.fullscreen-btn');
+
+    let currentMediaIndex = 0;
     let currentScale = 1;
     let isDragging = false;
     let translateX = 0, translateY = 0;
     let lastZoomPoint = { x: 0, y: 0 };
     let dragStartX = 0, dragStartY = 0;
+    let isVideo = false;
+    let isVideoPlaying = false;
 
     function getContainerCenter() {
       const rect = document.querySelector('.fullscreen-image-container').getBoundingClientRect();
       return { x: rect.left + rect.width/2, y: rect.top + rect.height/2 };
     }
 
-    images.forEach((image, index) => {
-      image.addEventListener('click', () => {
-        currentImageIndex = index;
-        openFullscreen(image.src);
+    // Handle clicks on both images and videos
+    mediaElements.forEach((element, index) => {
+      element.addEventListener('click', (e) => {
+        if (element.classList.contains('media-video')) {
+          e.preventDefault();
+          currentMediaIndex = index;
+          isVideo = true;
+          openFullscreen(element.src, true);
+        } else {
+          currentMediaIndex = index;
+          isVideo = false;
+          openFullscreen(element.src, false);
+        }
       });
     });
 
-    function openFullscreen(src) {
+    // Handle play overlay clicks for videos
+    document.querySelectorAll('.play-overlay').forEach((overlay, index) => {
+      overlay.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const videoElement = mediaElements[index + 7]; // Adjust index for video position
+        if (videoElement && videoElement.classList.contains('media-video')) {
+          currentMediaIndex = index + 7;
+          isVideo = true;
+          openFullscreen(videoElement.src, true);
+        }
+      });
+    });
+
+    function openFullscreen(src, isVideoFile = false) {
       resetZoom();
-      fullscreenImage.src = src;
+
+      if (isVideoFile) {
+        fullscreenImage.style.display = 'none';
+        fullscreenVideo.style.display = 'block';
+        fullscreenVideo.src = src;
+        fullscreenVideo.load();
+        zoomControls.style.display = 'none';
+        videoControls.style.display = 'flex';
+        setupVideoControls();
+      } else {
+        fullscreenVideo.style.display = 'none';
+        fullscreenImage.style.display = 'block';
+        fullscreenImage.src = src;
+        zoomControls.style.display = 'flex';
+        videoControls.style.display = 'none';
+      }
+
       overlay.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
+
+    function setupVideoControls() {
+      fullscreenVideo.addEventListener('loadedmetadata', () => {
+        durationFs.textContent = formatTime(fullscreenVideo.duration);
+        updateVideoProgress();
+      });
+
+      fullscreenVideo.addEventListener('timeupdate', updateVideoProgress);
+
+      fullscreenVideo.addEventListener('play', () => {
+        isVideoPlaying = true;
+        playPauseBtn.textContent = '⏸️';
+      });
+
+      fullscreenVideo.addEventListener('pause', () => {
+        isVideoPlaying = false;
+        playPauseBtn.textContent = '▶️';
+      });
+
+      // Auto-play when opened
+      fullscreenVideo.play();
+    }
+
+    function updateVideoProgress() {
+      if (fullscreenVideo.duration) {
+        const progress = (fullscreenVideo.currentTime / fullscreenVideo.duration) * 100;
+        videoProgressFilled.style.width = progress + '%';
+        currentTimeFs.textContent = formatTime(fullscreenVideo.currentTime);
+      }
+    }
+
+    // Video control event listeners
+    playPauseBtn.addEventListener('click', () => {
+      if (isVideoPlaying) {
+        fullscreenVideo.pause();
+      } else {
+        fullscreenVideo.play();
+      }
+    });
+
+    videoProgress.addEventListener('click', (e) => {
+      const rect = videoProgress.getBoundingClientRect();
+      const pos = (e.clientX - rect.left) / rect.width;
+      fullscreenVideo.currentTime = pos * fullscreenVideo.duration;
+    });
+
+    volumeBtn.addEventListener('click', () => {
+      if (fullscreenVideo.muted) {
+        fullscreenVideo.muted = false;
+        volumeBtn.textContent = '🔊';
+        volumeSliderFill.style.width = (fullscreenVideo.volume * 100) + '%';
+      } else {
+        fullscreenVideo.muted = true;
+        volumeBtn.textContent = '🔇';
+        volumeSliderFill.style.width = '0%';
+      }
+    });
+
+    volumeSlider.addEventListener('click', (e) => {
+      const rect = volumeSlider.getBoundingClientRect();
+      const pos = (e.clientX - rect.left) / rect.width;
+      fullscreenVideo.volume = Math.max(0, Math.min(1, pos));
+      volumeSliderFill.style.width = (fullscreenVideo.volume * 100) + '%';
+
+      if (fullscreenVideo.volume > 0) {
+        fullscreenVideo.muted = false;
+        volumeBtn.textContent = '🔊';
+      }
+    });
+
+    fullscreenBtn.addEventListener('click', () => {
+      if (fullscreenVideo.requestFullscreen) {
+        fullscreenVideo.requestFullscreen();
+      } else if (fullscreenVideo.webkitRequestFullscreen) {
+        fullscreenVideo.webkitRequestFullscreen();
+      }
+    });
 
     function closeFullscreen() {
       overlay.classList.remove('active');
       document.body.style.overflow = '';
       resetZoom();
+
+      // Pause video if it's playing
+      if (fullscreenVideo.style.display !== 'none') {
+        fullscreenVideo.pause();
+        fullscreenVideo.src = '';
+        isVideoPlaying = false;
+      }
     }
 
-    function showImage(index) {
-      if (index < 0) currentImageIndex = images.length - 1;
-      else if (index >= images.length) currentImageIndex = 0;
-      else currentImageIndex = index;
-      fullscreenImage.style.opacity = '0';
+    function showMedia(index) {
+      if (index < 0) currentMediaIndex = mediaElements.length - 1;
+      else if (index >= mediaElements.length) currentMediaIndex = 0;
+      else currentMediaIndex = index;
+
+      const currentElement = mediaElements[currentMediaIndex];
+      const elementIsVideo = currentElement.classList.contains('media-video');
+
+      // Fade out current media
+      if (fullscreenImage.style.display !== 'none') {
+        fullscreenImage.style.opacity = '0';
+      }
+      if (fullscreenVideo.style.display !== 'none') {
+        fullscreenVideo.style.opacity = '0';
+        fullscreenVideo.pause();
+      }
+
       setTimeout(() => {
         resetZoom();
-        fullscreenImage.src = images[currentImageIndex].src;
-        fullscreenImage.style.opacity = '1';
+
+        if (elementIsVideo) {
+          fullscreenImage.style.display = 'none';
+          fullscreenVideo.style.display = 'block';
+          fullscreenVideo.src = currentElement.src;
+          fullscreenVideo.load();
+          fullscreenVideo.style.opacity = '1';
+          zoomControls.style.display = 'none';
+          videoControls.style.display = 'flex';
+          setupVideoControls();
+          isVideo = true;
+        } else {
+          fullscreenVideo.style.display = 'none';
+          fullscreenImage.style.display = 'block';
+          fullscreenImage.src = currentElement.src;
+          fullscreenImage.style.opacity = '1';
+          zoomControls.style.display = 'flex';
+          videoControls.style.display = 'none';
+          isVideo = false;
+        }
       }, 300);
     }
 
-    prevButton.addEventListener('click', (e) => { e.stopPropagation(); showImage(currentImageIndex - 1); });
-    nextButton.addEventListener('click', (e) => { e.stopPropagation(); showImage(currentImageIndex + 1); });
+    prevButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showMedia(currentMediaIndex - 1);
+    });
+
+    nextButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showMedia(currentMediaIndex + 1);
+    });
 
     function zoomAtPoint(newScale, pointX, pointY) {
+      if (isVideo) return; // Don't zoom videos
+
       const oldScale = currentScale;
       const center = getContainerCenter();
       const focalOffsetX = pointX - center.x;
@@ -779,6 +1800,7 @@
     }
 
     function updateZoom() {
+      if (isVideo) return;
       fullscreenImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
       fullscreenImage.classList.toggle('zoomed', currentScale > 1);
     }
@@ -792,12 +1814,14 @@
 
     zoomInButton.addEventListener('click', (e) => {
       e.stopPropagation();
+      if (isVideo) return;
       const center = getContainerCenter();
       zoomAtPoint(Math.min(currentScale + 0.5, 5), center.x, center.y);
     });
 
     zoomOutButton.addEventListener('click', (e) => {
       e.stopPropagation();
+      if (isVideo) return;
       const center = getContainerCenter();
       const newScale = Math.max(currentScale - 0.5, 1);
       if(newScale === 1) resetZoom();
@@ -806,10 +1830,12 @@
 
     zoomResetButton.addEventListener('click', (e) => {
       e.stopPropagation();
+      if (isVideo) return;
       resetZoom();
     });
 
     fullscreenImage.addEventListener('wheel', (e) => {
+      if (isVideo) return;
       e.preventDefault();
       const pointX = e.clientX, pointY = e.clientY;
       const delta = e.deltaY < 0 ? 0.2 : -0.2;
@@ -817,7 +1843,7 @@
     });
 
     fullscreenImage.addEventListener('mousedown', (e) => {
-      if (currentScale <= 1) return;
+      if (currentScale <= 1 || isVideo) return;
       e.preventDefault();
       isDragging = true;
       dragStartX = e.clientX - translateX;
@@ -826,7 +1852,7 @@
     });
 
     document.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
+      if (!isDragging || isVideo) return;
       translateX = e.clientX - dragStartX;
       translateY = e.clientY - dragStartY;
       updateZoom();
@@ -840,17 +1866,36 @@
     document.addEventListener('keydown', (e) => {
       if (!overlay.classList.contains('active')) return;
       if (e.key === 'Escape') closeFullscreen();
-      else if (e.key === 'ArrowLeft') showImage(currentImageIndex - 1);
-      else if (e.key === 'ArrowRight') showImage(currentImageIndex + 1);
-      else if (e.key === '+') zoomAtPoint(Math.min(currentScale + 0.5, 5), ...Object.values(getContainerCenter()));
-      else if (e.key === '-') zoomAtPoint(Math.max(currentScale - 0.5, 1), ...Object.values(getContainerCenter()));
-      else if (e.key === '0') resetZoom();
+      else if (e.key === 'ArrowLeft') showMedia(currentMediaIndex - 1);
+      else if (e.key === 'ArrowRight') showMedia(currentMediaIndex + 1);
+      else if (e.key === '+' && !isVideo) zoomAtPoint(Math.min(currentScale + 0.5, 5), ...Object.values(getContainerCenter()));
+      else if (e.key === '-' && !isVideo) zoomAtPoint(Math.max(currentScale - 0.5, 1), ...Object.values(getContainerCenter()));
+      else if (e.key === '0' && !isVideo) resetZoom();
+      else if (e.key === ' ' && isVideo) {
+        e.preventDefault();
+        if (isVideoPlaying) {
+          fullscreenVideo.pause();
+        } else {
+          fullscreenVideo.play();
+        }
+      }
     });
 
     closeButton.addEventListener('click', closeFullscreen);
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) closeFullscreen();
     });
+
+    // Contact button functionality
+    const contactBtn = document.querySelector('.contact-btn');
+    if (contactBtn) {
+      contactBtn.addEventListener('click', () => {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+          contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
   </script>
 </body>
 </html>
