@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JJ's Cinematography - Gallery</title>
+  <title>JJ's Cinematography - Galerij</title>
   <style>
     :root {
       --gradient: linear-gradient(270deg, #ffcc66, #ff99cc);
@@ -644,15 +644,15 @@
 <body>
   <header class="header">
     <h1>JJ's Cinematography</h1>
-    <div class="header-subtitle">Photography Collection</div>
+    <div class="header-subtitle">Fotografie Collectie</div>
   </header>
 
   <a href="index.html" class="back-button">
-    <span>←</span> Back to Home
+    <span>←</span> Terug naar Home
   </a>
 
   <nav class="nav-container">
-    <a href="#" class="nav-item">About</a>
+    <a href="#" class="nav-item">Over</a>
     <a href="#" class="nav-item">Portfolio</a>
     <a href="#" class="nav-item">Contact</a>
   </nav>
@@ -660,12 +660,12 @@
   <main class="main-content">
     <div class="filter-container">
       <div class="filter-menu">
-        <div class="filter-item active" data-filter="all">All Photos</div>
-        <div class="filter-item" data-filter="portraits">Portraits</div>
+        <div class="filter-item active" data-filter="all">Alle Foto's</div>
+        <div class="filter-item" data-filter="portraits">Portretten</div>
         <div class="filter-item" data-filter="drone">Drone</div>
-        <div class="filter-item" data-filter="landscape">Landscape</div>
-        <div class="filter-item" data-filter="commercial">Commercial</div>
-        <div class="filter-item" data-filter="cinematic">Cinematic</div>
+        <div class="filter-item" data-filter="landscape">Landschap</div>
+        <div class="filter-item" data-filter="commercial">Commercieel</div>
+        <div class="filter-item" data-filter="cinematic">Cinematisch</div>
       </div>
     </div>
 
@@ -680,7 +680,7 @@
 
   <div class="fullscreen-overlay">
     <div class="fullscreen-image-container">
-      <img src="" alt="Fullscreen View" class="fullscreen-image">
+      <img src="" alt="Volledig Scherm Weergave" class="fullscreen-image">
     </div>
     <div class="close-button">&times;</div>
     <div class="navigation-button prev-button">&#10094;</div>
@@ -693,28 +693,33 @@
   </div>
 
   <script>
-    // Sample image data - in a real implementation, this would come from a database
+    // Updated image data from the main website
     const imageData = [
-      { src: "A6700418copy.jpg", title: "Portrait Study", category: "portraits cinematic", height: 40 },
-      { src: "Djenairoweb.jpg", title: "Artistic Portrait", category: "portraits", height: 35, featured: true },
-      { src: "Aadhyaweb.jpg", title: "Natural Light", category: "portraits landscape", height: 30 },
-      { src: "Djenairoweb1.jpg", title: "Urban Fashion", category: "portraits commercial", height: 45 },
-      { src: "A6700418copy.jpg", title: "Morning Light", category: "landscape", height: 25 },
-      { src: "Djenairoweb.jpg", title: "City View", category: "drone commercial", height: 50, featured: true },
-      { src: "Aadhyaweb.jpg", title: "Sunset Silhouette", category: "landscape cinematic", height: 35 },
+      { src: "A6700418copy.jpg", title: "Portret Studie", category: "portraits cinematic", height: 40, featured: true },
+      { src: "Djenairoweb.jpg", title: "Artistiek Portret", category: "portraits", height: 35 },
+      { src: "Aadhyaweb.jpg", title: "Natuurlijk Licht", category: "portraits landscape", height: 30 },
+      { src: "Djenairoweb1.jpg", title: "Stedelijke Mode", category: "portraits commercial", height: 45 },
+      { src: "A6706040.png", title: "Professioneel Portret", category: "portraits commercial", height: 38, featured: true },
+      { src: "Foto4.jpg", title: "Creatieve Compositie", category: "portraits cinematic", height: 42 },
+      { src: "A6704691.png", title: "Studio Portret", category: "portraits commercial", height: 36 },
+      { src: "A6700418copy.jpg", title: "Ochtendlicht", category: "landscape", height: 25 },
+      { src: "Djenairoweb.jpg", title: "Stadsbeeld", category: "drone commercial", height: 50 },
+      { src: "Aadhyaweb.jpg", title: "Zonsondergang Silhouet", category: "landscape cinematic", height: 35 },
       { src: "Djenairoweb1.jpg", title: "Product Showcase", category: "commercial", height: 30 },
-      { src: "A6700418copy.jpg", title: "Aerial Landscape", category: "drone landscape", height: 45 },
-      { src: "Djenairoweb.jpg", title: "Fashion Editorial", category: "portraits commercial", height: 40 },
-      { src: "Aadhyaweb.jpg", title: "Cinematic Frame", category: "cinematic", height: 28 },
-      { src: "Djenairoweb1.jpg", title: "Urban Exploration", category: "drone cinematic", height: 38, featured: true },
-      { src: "A6700418copy.jpg", title: "Studio Lighting", category: "portraits commercial", height: 32 },
-      { src: "Djenairoweb.jpg", title: "Mountain View", category: "landscape drone", height: 42 },
-      { src: "Aadhyaweb.jpg", title: "Product Detail", category: "commercial", height: 26 },
-      { src: "Djenairoweb1.jpg", title: "Dramatic Portrait", category: "portraits cinematic", height: 36 },
-      { src: "A6700418copy.jpg", title: "Abstract Composition", category: "cinematic", height: 30 },
-      { src: "Djenairoweb.jpg", title: "City Skyline", category: "drone landscape", height: 44, featured: true },
-      { src: "Aadhyaweb.jpg", title: "Lifestyle Session", category: "portraits commercial", height: 34 },
-      { src: "Djenairoweb1.jpg", title: "Geometric Study", category: "cinematic drone", height: 38 }
+      { src: "A6706040.png", title: "Luchtfotografie", category: "drone landscape", height: 45, featured: true },
+      { src: "Foto4.jpg", title: "Mode Editorial", category: "portraits commercial", height: 40 },
+      { src: "A6704691.png", title: "Cinematisch Frame", category: "cinematic", height: 28 },
+      { src: "A6700418copy.jpg", title: "Stedelijke Verkenning", category: "drone cinematic", height: 38 },
+      { src: "Djenairoweb.jpg", title: "Studio Verlichting", category: "portraits commercial", height: 32 },
+      { src: "Aadhyaweb.jpg", title: "Bergzicht", category: "landscape drone", height: 42 },
+      { src: "Djenairoweb1.jpg", title: "Product Detail", category: "commercial", height: 26 },
+      { src: "A6706040.png", title: "Dramatisch Portret", category: "portraits cinematic", height: 36, featured: true },
+      { src: "Foto4.jpg", title: "Abstracte Compositie", category: "cinematic", height: 30 },
+      { src: "A6704691.png", title: "Skyline van de Stad", category: "drone landscape", height: 44 },
+      { src: "A6700418copy.jpg", title: "Lifestyle Sessie", category: "portraits commercial", height: 34 },
+      { src: "Djenairoweb.jpg", title: "Geometrische Studie", category: "cinematic drone", height: 38 },
+      { src: "Aadhyaweb.jpg", title: "Avond Portret", category: "portraits cinematic", height: 33 },
+      { src: "Djenairoweb1.jpg", title: "Architecturale Fotografie", category: "commercial cinematic", height: 47 }
     ];
 
     // Function to generate gallery items
