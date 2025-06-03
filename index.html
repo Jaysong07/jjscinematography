@@ -207,12 +207,7 @@
       transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     .media-card.hidden {
-      opacity: 0;
-      transform: translateY(20px);
-      height: 0;
-      margin: 0;
-      padding: 0;
-      border: 0;
+      display: none !important;
     }
     .image-container {
       position: relative;
@@ -1206,43 +1201,42 @@
       </div>
       <div class="our-works-layout">
         <!-- FEATURED SECTION -->
-        <!-- Place all featured items here -->
-        <div class="media-card" data-category="featured">
+        <div class="media-card" data-category="featured" data-categories="featured">
           <div class="image-container">
             <img src="A6700418copy.jpg" alt="Featured Project 1" class="media-image">
           </div>
         </div>
-        <div class="media-card" data-category="featured">
+        <div class="media-card" data-category="featured" data-categories="featured">
           <div class="image-container">
             <img src="Djenairoweb.jpg" alt="Featured Project 2" class="media-image">
           </div>
         </div>
-        <div class="media-card" data-category="featured">
+        <div class="media-card" data-category="featured" data-categories="featured">
           <div class="image-container">
             <img src="Aadhyaweb.jpg" alt="Featured Project 3" class="media-image">
           </div>
         </div>
-        <div class="media-card" data-category="featured">
+        <div class="media-card" data-category="featured" data-categories="featured">
           <div class="image-container">
             <img src="Djenairoweb1.jpg" alt="Featured Project 4" class="media-image">
           </div>
         </div>
-        <div class="media-card" data-category="featured">
+        <div class="media-card" data-category="featured" data-categories="featured">
           <div class="image-container">
             <img src="A6706040.jpg" alt="Featured Project 5" class="media-image">
           </div>
         </div>
-        <div class="media-card" data-category="featured">
+        <div class="media-card" data-category="featured" data-categories="featured,drone">
           <div class="image-container">
             <img src="Foto4.jpg" alt="Featured Project 6" class="media-image">
           </div>
         </div>
-        <div class="media-card" data-category="featured">
+        <div class="media-card" data-category="featured" data-categories="featured">
           <div class="image-container">
             <img src="A6704691.png" alt="Featured Project 7" class="media-image">
           </div>
         </div>
-        <div class="media-card" data-category="featured" data-type="video">
+        <div class="media-card" data-category="featured" data-categories="featured" data-type="video">
           <div class="image-container">
             <video class="media-video" preload="metadata" muted loop>
               <source src="Timeline 1.mp4" type="video/mp4">
@@ -1261,82 +1255,43 @@
         </div>
 
         <!-- PORTRAITS SECTION -->
-        <!-- Place all portrait items here -->
-        <div class="media-card" data-category="portraits">
+        <div class="media-card" data-category="portraits" data-categories="portraits">
           <div class="image-container">
             <img src="A6700418copy.jpg" alt="Portrait 1" class="media-image">
           </div>
         </div>
-        <div class="media-card" data-category="portraits">
+        <div class="media-card" data-category="portraits" data-categories="portraits">
           <div class="image-container">
             <img src="Djenairoweb.jpg" alt="Portrait 2" class="media-image">
           </div>
         </div>
-        <div class="media-card" data-category="portraits">
+        <div class="media-card" data-category="portraits" data-categories="portraits">
           <div class="image-container">
             <img src="Aadhyaweb.jpg" alt="Portrait 3" class="media-image">
           </div>
         </div>
-        <div class="media-card" data-category="portraits">
+        <div class="media-card" data-category="portraits" data-categories="portraits">
           <div class="image-container">
             <img src="Djenairoweb1.jpg" alt="Portrait 4" class="media-image">
           </div>
         </div>
-        <div class="media-card" data-category="portraits">
+        <div class="media-card" data-category="portraits" data-categories="portraits">
           <div class="image-container">
             <img src="A6706040.jpg" alt="Portrait 5" class="media-image">
           </div>
         </div>
-        <div class="media-card" data-category="portraits">
+        <div class="media-card" data-category="portraits" data-categories="portraits,drone">
           <div class="image-container">
             <img src="Foto4.jpg" alt="Portrait 6" class="media-image">
           </div>
         </div>
 
         <!-- DRONE SECTION -->
-        <!-- Place all drone footage/photos here -->
-        <!-- Example: You can add drone images/videos here -->
-       
-        <div class="media-card" data-category="drone">
+        <div class="media-card" data-category="drone" data-categories="drone,featured,portraits">
           <div class="image-container">
             <img src="Foto4.jpg" alt="Drone Shot 1" class="media-image">
           </div>
         </div>
-        
-
-        <!-- ANIMATIONS SECTION -->
-        <!-- Place all animation projects here -->
-        <!-- Example: You can add animation videos here -->
-        <!--
-        <div class="media-card" data-category="animations" data-type="video">
-          <div class="image-container">
-            <video class="media-video" preload="metadata" muted loop>
-              <source src="animation-1.mp4" type="video/mp4">
-              Uw browser ondersteunt de video tag niet.
-            </video>
-            <div class="play-overlay">▶</div>
-            <div class="video-hover-overlay">
-              <div class="video-time-display">
-                <span class="current-time">0:00</span> / <span class="duration">0:00</span>
-              </div>
-              <div class="video-progress-bar">
-                <div class="video-progress-fill"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        -->
-
-        <!-- APPS SECTION -->
-        <!-- Place all app development projects here -->
-        <!-- Example: You can add app screenshots here -->
-        <!--
-        <div class="media-card" data-category="apps">
-          <div class="image-container">
-            <img src="app-screenshot-1.jpg" alt="App Project 1" class="media-image">
-          </div>
-        </div>
-        -->
       </div>
       <!-- Go to Collage Button inside the Our Work section -->
       <a href="Collage.html" class="collage-button">Ga naar Collage</a>
@@ -1564,23 +1519,34 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
+    // Fixed filter functionality
     const filterItems = document.querySelectorAll('.filter-item');
     const mediaCards = document.querySelectorAll('.media-card');
 
+    // Function to apply filter
+    function applyFilter(filter) {
+      mediaCards.forEach(card => {
+        const categories = (card.dataset.categories || '').split(',');
+        if (categories.includes(filter)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    // Initialize with featured filter on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      applyFilter('featured');
+    });
+
+    // Handle filter clicks
     filterItems.forEach(item => {
       item.addEventListener('click', () => {
         filterItems.forEach(i => i.classList.remove('active'));
         item.classList.add('active');
         const filter = item.dataset.filter;
-
-        mediaCards.forEach(card => {
-          card.style.transition = 'all 0.4s ease';
-          if (card.dataset.category === filter) {
-            card.classList.remove('hidden');
-          } else {
-            card.classList.add('hidden');
-          }
-        });
+        applyFilter(filter);
       });
     });
 
@@ -1629,7 +1595,6 @@
     setupVideoHover();
 
     // Updated media handling for both images and videos
-    const mediaElements = document.querySelectorAll('.media-image, .media-video');
     const overlay = document.querySelector('.fullscreen-overlay');
     const fullscreenImage = document.querySelector('.fullscreen-image');
     const fullscreenVideo = document.querySelector('.fullscreen-video');
@@ -1661,6 +1626,12 @@
     let dragStartX = 0, dragStartY = 0;
     let isVideo = false;
     let isVideoPlaying = false;
+    let visibleMediaElements = [];
+
+    // Function to get currently visible media elements
+    function updateVisibleMediaElements() {
+      visibleMediaElements = Array.from(document.querySelectorAll('.media-card:not(.hidden) .media-image, .media-card:not(.hidden) .media-video'));
+    }
 
     function getContainerCenter() {
       const rect = document.querySelector('.fullscreen-image-container').getBoundingClientRect();
@@ -1668,32 +1639,15 @@
     }
 
     // Handle clicks on both images and videos
-    mediaElements.forEach((element, index) => {
-      element.addEventListener('click', (e) => {
-        if (element.classList.contains('media-video')) {
-          e.preventDefault();
-          currentMediaIndex = index;
-          isVideo = true;
-          openFullscreen(element.src, true);
-        } else {
-          currentMediaIndex = index;
-          isVideo = false;
-          openFullscreen(element.src, false);
-        }
-      });
-    });
-
-    // Handle play overlay clicks for videos
-    document.querySelectorAll('.play-overlay').forEach((overlay, index) => {
-      overlay.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const videoElement = mediaElements[index + 7]; // Adjust index for video position
-        if (videoElement && videoElement.classList.contains('media-video')) {
-          currentMediaIndex = index + 7;
-          isVideo = true;
-          openFullscreen(videoElement.src, true);
-        }
-      });
+    document.addEventListener('click', (e) => {
+      const mediaElement = e.target.closest('.media-image, .media-video');
+      if (mediaElement && !mediaElement.closest('.media-card.hidden')) {
+        e.preventDefault();
+        updateVisibleMediaElements();
+        currentMediaIndex = visibleMediaElements.indexOf(mediaElement);
+        isVideo = mediaElement.classList.contains('media-video');
+        openFullscreen(mediaElement.src, isVideo);
+      }
     });
 
     function openFullscreen(src, isVideoFile = false) {
@@ -1810,11 +1764,13 @@
     }
 
     function showMedia(index) {
-      if (index < 0) currentMediaIndex = mediaElements.length - 1;
-      else if (index >= mediaElements.length) currentMediaIndex = 0;
+      updateVisibleMediaElements();
+      
+      if (index < 0) currentMediaIndex = visibleMediaElements.length - 1;
+      else if (index >= visibleMediaElements.length) currentMediaIndex = 0;
       else currentMediaIndex = index;
 
-      const currentElement = mediaElements[currentMediaIndex];
+      const currentElement = visibleMediaElements[currentMediaIndex];
       const elementIsVideo = currentElement.classList.contains('media-video');
 
       // Fade out current media
